@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Libro Interactivo PDF</title>
 
-    <!-- Cargar librerías desde internet (sin descargar nada) -->
+    <!-- Cargar librerías desde Internet (sin descargar nada) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4/turn.min.js"></script>
@@ -43,7 +43,7 @@
     <div id="flipbook"></div>
 
     <script>
-        const pdfUrl = "resultados.pdf"; // Asegúrate de que este es el nombre de tu PDF
+        const pdfUrl = "resultados.pdf"; // Asegúrate de que este sea el nombre de tu PDF
 
         pdfjsLib.getDocument(pdfUrl).promise.then(pdf => {
             const flipbook = $("#flipbook");
