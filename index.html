@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Libro Interactivo PDF</title>
 
-    <!-- Librerías desde internet (sin descargas) -->
+    <!-- Cargar librerías desde internet (sin descargar nada) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4/turn.min.js"></script>
@@ -20,11 +20,11 @@
             margin: 0;
         }
         #flipbook {
-            width: 800px;
+            width: 900px;
             height: 600px;
         }
         .page {
-            width: 800px;
+            width: 450px;
             height: 600px;
             display: flex;
             justify-content: center;
@@ -43,18 +43,19 @@
     <div id="flipbook"></div>
 
     <script>
-        const pdfUrl = "resultados.pdf"; // Aquí se cambia el nombre del PDF
+        const pdfUrl = "resultados.pdf"; // Asegúrate de que este es el nombre de tu PDF
 
         pdfjsLib.getDocument(pdfUrl).promise.then(pdf => {
             const flipbook = $("#flipbook");
 
             function renderPage(pageNum) {
                 return pdf.getPage(pageNum).then(page => {
-                    let viewport = page.getViewport({ scale: 1.5 });
+                    let viewport = page.getViewport({ scale: 2 });
                     let canvas = document.createElement("canvas");
+                    let context = canvas.getContext("2d");
+
                     canvas.width = viewport.width;
                     canvas.height = viewport.height;
-                    let context = canvas.getContext("2d");
 
                     let pageDiv = document.createElement("div");
                     pageDiv.className = "page";
@@ -72,9 +73,11 @@
 
             Promise.all(promises).then(() => {
                 flipbook.turn({
-                    width: 800,
+                    width: 900,
                     height: 600,
-                    autoCenter: true
+                    autoCenter: true,
+                    display: "double",
+                    acceleration: true
                 });
             });
         });
