@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Libro Interactivo PDF</title>
 
-    <!-- Librerías desde internet (sin descargar nada manualmente) -->
+    <!-- Librerías desde internet (sin descargas) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4/turn.min.js"></script>
@@ -24,8 +24,8 @@
             height: 600px;
         }
         .page {
-            width: 100%;
-            height: 100%;
+            width: 800px;
+            height: 600px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -43,7 +43,7 @@
     <div id="flipbook"></div>
 
     <script>
-        const pdfUrl = "resultados.pdf"; // Cambia esto por el nombre de tu PDF
+        const pdfUrl = "resultados.pdf"; // Aquí se cambia el nombre del PDF
 
         pdfjsLib.getDocument(pdfUrl).promise.then(pdf => {
             const flipbook = $("#flipbook");
