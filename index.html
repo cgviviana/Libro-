@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Libro Interactivo PDF</title>
 
-    <!-- Cargar librerías necesarias desde internet (sin descargas manuales) -->
+    <!-- Librerías desde internet (sin descargar nada manualmente) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4/turn.min.js"></script>
@@ -43,36 +43,40 @@
     <div id="flipbook"></div>
 
     <script>
-        const pdfUrl = "resultados.pdf"; // Reemplázalo con el nombre de tu PDF
+        const pdfUrl = "documento.pdf"; // Cambia esto por el nombre de tu PDF
 
         pdfjsLib.getDocument(pdfUrl).promise.then(pdf => {
-            const flipbook = document.getElementById("flipbook");
+            const flipbook = $("#flipbook");
 
-            for (let i = 1; i <= pdf.numPages; i++) {
-                let pageDiv = document.createElement("div");
-                pageDiv.className = "page";
-
-                let canvas = document.createElement("canvas");
-                pageDiv.appendChild(canvas);
-                flipbook.appendChild(pageDiv);
-
-                pdf.getPage(i).then(page => {
+            function renderPage(pageNum) {
+                return pdf.getPage(pageNum).then(page => {
                     let viewport = page.getViewport({ scale: 1.5 });
+                    let canvas = document.createElement("canvas");
                     canvas.width = viewport.width;
                     canvas.height = viewport.height;
                     let context = canvas.getContext("2d");
 
-                    page.render({ canvasContext: context, viewport: viewport });
+                    let pageDiv = document.createElement("div");
+                    pageDiv.className = "page";
+                    pageDiv.appendChild(canvas);
+                    flipbook.append(pageDiv);
+
+                    return page.render({ canvasContext: context, viewport: viewport }).promise;
                 });
             }
 
-            setTimeout(() => {
-                $("#flipbook").turn({
+            let promises = [];
+            for (let i = 1; i <= pdf.numPages; i++) {
+                promises.push(renderPage(i));
+            }
+
+            Promise.all(promises).then(() => {
+                flipbook.turn({
                     width: 800,
                     height: 600,
                     autoCenter: true
                 });
-            }, 1000);
+            });
         });
     </script>
 
